@@ -1,6 +1,6 @@
 # Basic C debugger(gdb) tutorial
 
-To launch gdb for local application
+To launch gdb for local application   
 การดีบั๊คโปรแกรมที่รันอยู่บนเครื่องปัจจุบันด้วย gdb มีขั้นตอนดังต่อไปนี้
 1. Compile C program with `-g` option: <app_g_option>   
 เพิ่มออปชั่น `-g` เข้าไปในขั้นตอนคอมไพล์โปรแกรม
@@ -187,6 +187,86 @@ $ gdb multiplicationtable_gdb
 ...
 ## 4. Run <app_g_option> in gdb shell
 (gdb) run 3
+```
+
+--------------------------------------------
+
+# GDBServer, debug C programs on remote server   
+# การดีบั๊คโปรแกรมภาษา C บนเครื่องรีโมทด้วย GDBServer   
+
+target: remote machine that a program running on   
+host: local machine a debugger running on to debug target machine via network   
+
+# Senorio   
+Ubuntu machine(x64) debugging a program in target machine(mipsel)   
+ตัวอย่างการดีบั๊กโปรแกรมจากเครื่อง host: Ubuntu ด้วยการรีโมทไปที่โปรแกรมในเครื่อง target(mipsel)     
+1. Compile binary with `-g` option and copy executable files to both host and target machines.
+2. Install gdbserver on Target machine.
+3. Target machine: Launch gdbserver with executable file in step 1.
+4. Launch gdb on host(ubuntuX64) with executable file in step 1.
+5. Remote debugging like local debug
+6. Attach gdb to a Running Process on Target
+
+--------------------------------------------
+
+3. Target machine: Launch gdbserver with executable file in step 1.
+```
+$ gdbserver 127.0.0.1:2345 factorial_gdb
+gdbserver: Error disabling address space randomization: Success
+Process factorial_gdb created; pid = 90
+Listening on port 2345
+
+```
+
+
+--------------------------------------------
+
+4. Launch gdb on host(ubuntuX64) with executable file in step 1.
+```
+host$ gdb factorial_gdb
+```
+
+Connect to target gdbserver using ip:port
+```
+(gdb) target remote 127.0.0.1:2345
+(gdb)
+```
+
+--------------------------------------------
+
+5. Remote debugging like local debug
+We can run any normal commands in local gdb to debug program in target.   
+```
+(gdb) l
+4       int32_t factorial(int32_t fact){
+5               if(fact == 0){
+6                       return 1;
+7               }
+8               return fact*factorial(fact-1);
+9       }
+10
+11      int main()
+12      {       int32_t fact;
+13              printf ("Enter factorial number: ");
+(gdb) b factorial
+Breakpoint 1 at 0x4005a8: file factorial.c, line 5.
+(gdb) b main
+Breakpoint 2 at 0x4005d0: file factorial.c, line 13.
+(gdb) c
+Continuing.
+
+Breakpoint 2, main () at factorial.c:13
+13              printf ("Enter factorial number: ");
+(gdb)
+```
+
+Note that the output of hte program will be print in the target machine.   
+
+--------------------------------------------
+
+6. Attach gdb to a Running Process on Target
+```
+(gdb) attach 123
 ```
 
 --------------------------------------------
