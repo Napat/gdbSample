@@ -7,16 +7,16 @@ include $(TOP_DIR)/*.mk
 all: factorial factorial_gdb multiplicationtable multiplicationtable_gdb install
 
 factorial: factorial.c
-	CC factorial.c -o $@
+	${CC} factorial.c -o $@
 
 factorial_gdb: factorial.c
-	CC -g factorial.c -o $@
+	${CC} -g factorial.c -o $@
 
 multiplicationtable: multiplicationtable.c
-	CC multiplicationtable.c -o $@
+	${CC} multiplicationtable.c -o $@
 
 multiplicationtable_gdb: multiplicationtable.c
-	CC -g multiplicationtable.c -o $@
+	${CC} -g multiplicationtable.c -o $@
 
 install: FORCE
 	mkdir -p host target
