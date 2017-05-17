@@ -1,18 +1,22 @@
 
+TOP_DIR = $(shell pwd)
+export TOP_DIR
+
+include $(TOP_DIR)/*.mk
 
 all: factorial factorial_gdb multiplicationtable multiplicationtable_gdb install
 
 factorial: factorial.c
-	cc factorial.c -o $@
+	CC factorial.c -o $@
 
 factorial_gdb: factorial.c
-	cc -g factorial.c -o $@
+	CC -g factorial.c -o $@
 
 multiplicationtable: multiplicationtable.c
-	cc multiplicationtable.c -o $@
+	CC multiplicationtable.c -o $@
 
 multiplicationtable_gdb: multiplicationtable.c
-	cc -g multiplicationtable.c -o $@
+	CC -g multiplicationtable.c -o $@
 
 install: FORCE
 	mkdir -p host target
