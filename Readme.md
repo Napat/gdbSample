@@ -1,6 +1,6 @@
 # Basic C debugger(gdb) tutorial
 
-To launch gdb for local application   
+## To launch gdb for local application   
 การดีบั๊คโปรแกรมที่รันอยู่บนเครื่องปัจจุบันด้วย gdb มีขั้นตอนดังต่อไปนี้
 1. Compile C program with `-g` option: <app_g_option>   
 เพิ่มออปชั่น `-g` เข้าไปในขั้นตอนคอมไพล์โปรแกรม
@@ -176,7 +176,7 @@ napat@.../host$
 
 --------------------------------------------
 
-Sample to run gdb over mutiplicationtable_gdp that normal mutiplicationtable require 
+## Sample to run gdb over mutiplicationtable_gdp that normal mutiplicationtable require 
 executing with argument: `./mutiplicationtable 3`
 ตัวอย่างการสั่งรันโปรแกรมที่รับค่าเข้าไปในขั้นตอนการรัน
 
@@ -191,13 +191,39 @@ $ gdb multiplicationtable_gdb
 
 --------------------------------------------
 
-# GDBServer, debug C programs on remote server   
-# การดีบั๊คโปรแกรมภาษา C บนเครื่องรีโมทด้วย GDBServer   
+## Sample runtime error: Segmentation fault with debug info   
+
+```
+$ gdb host/err_arrayoverflow_gdb 
+(gdb) run
+array[0]=2
+array[1]=3
+array[2]=4
+array[3]=5
+array[4]=6
+array[5]=1
+array[6]=4195473
+array[7]=1
+array[8]=-359555935
+array[9]=32768
+array[10]=4195838
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00000000004005fe in main () at err_arrayoverflow.c:14
+14              printf("end main()\r\n");
+(gdb)
+```
+
+
+--------------------------------------------
+
+## GDBServer, debug C programs on remote server   
+## การดีบั๊คโปรแกรมภาษา C บนเครื่องรีโมทด้วย GDBServer   
 
 target: remote machine that a program running on   
 host: local machine a debugger running on to debug target machine via network   
 
-# Senorio   
+### Senorio   
 Ubuntu machine(x64) debugging a program in target machine(mipsel)   
 ตัวอย่างการดีบั๊กโปรแกรมจากเครื่อง host: Ubuntu ด้วยการรีโมทไปที่โปรแกรมในเครื่อง target(mipsel)     
 1. Compile binary with `-g` option and copy executable files to both host and target machines.
@@ -260,7 +286,7 @@ Breakpoint 2, main () at factorial.c:13
 (gdb)
 ```
 
-Note that the output of hte program will be print in the target machine.   
+** Output of program will be print in the target machine **
 
 --------------------------------------------
 
