@@ -189,6 +189,33 @@ $ gdb multiplicationtable_gdb
 (gdb) run 3
 ```
 
+
+--------------------------------------------
+
+## gdb attach a process
+Sometime we want to attach the process like child process from fork() or pthread_create() to gdb by using   
+เราสามารถผูก gdb เข้ากับ process ใดๆได้ด้วยเลข pid ได้ด้วย
+Syntax: 
+```
+gdb -p <pid>
+```
+
+For example,
+```
+## SHELL 01
+$ ./host/factorial_gdb
+Enter factorial number: 
+```
+
+```
+## SHELL 02
+$ ps | grep factorial_gdb
+ 641 ?        00:00:00 factorial_gdb
+$
+$ gdp -p 641
+(gdb)
+```
+
 --------------------------------------------
 
 ## Sample runtime error: Segmentation fault with debug info   
