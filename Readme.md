@@ -17,16 +17,21 @@
 
 Frequent gdb command shortcuts
 ```
+Note: ENTER: pressing enter key would execute the previously executed command again.
+
 q, quit - quit gdb
 l, list - list source code at current point 
 p - print
 c - continue
-s - step
+s, step - go to next line(not treats function as a single instruction)
+n, next - go to next line of current stack(treats function as a single instruction, step into function call stack and finished immediately )
 where - see stack list
 up - go to upper stack level
 down - go(back) to lower stack level
 print <varname> - get variable value
-ENTER: pressing enter key would execute the previously executed command again.
+fin, finish - Continue running until just after function in the selected stack frame returns.
+help - List of classes of commands
+help <classe of command> - List of commands of that class, e.g., `help running`
 
 ```
    
@@ -124,7 +129,7 @@ Breakpoint 2, factorial (fact=5) at factorial.c:8
 (gdb) down
 #0  factorial (fact=5) at factorial.c:8
 8               return fact*factorial(fact-1);
-(gdb) list
+(gdb) l
 3
 4       int32_t factorial(int32_t fact){
 5               if(fact == 0){
@@ -158,12 +163,16 @@ $1 = 5
 6. Continue/StepOver/StepIn to next program lines 
 Three kind of gdb operations when program stops at a break point.
 - c or continue: Debugger will continue executing until the next break point.
-- n or next: Debugger will execute the next line as single instruction.
-- s or step: Same as next, but does not treats function as a single instruction, 
-instead goes into the function and executes it line by line.
+- n or next: Debugger will execute the next line, treats functions as a single instruction, NOT go into function call stack line by line.
+- s or step: Same as next, but does not treats function as a single instruction, instead goes into the function and executes it line by line.
    
 ```
 ## SHELL 01
+(gdb) fin
+Run till exit from #0  factorial (fact=5) at factorial.c:8
+
+Breakpoint 2, factorial (fact=4) at factorial.c:8
+8               return fact*factorial(fact-1);
 (gdb) p fact
 $2 = 4
 (gdb) s
