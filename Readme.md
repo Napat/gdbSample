@@ -8,7 +8,7 @@
 เปิดโปรแกรม gdb โดยใส่โปรแกรมที่ต้องการดีบั๊คเข้ามาด้วย
 3. Setup break point
 ตั้งค่าจุดเบรคพ้อยที่ต้องการตรวจโปรแกรม
-4. Run <app_g_option> in gdb shell
+4. Run <app_g_option> in gdb shell and list stack by using `where` commands 
 สั่งเริ่มทำงานโปรแกรมในโหมดดีบั๊ค
 5. Debuging any variables
 ตรวจสอบค่าต่างๆที่ตำแหน่งเบรคพ้อย
@@ -17,11 +17,15 @@
 
 Frequent gdb command shortcuts
 ```
-q - quit gdb
-l – list
-p – print
-c – continue
-s – step
+q, quit - quit gdb
+l, list - list source code at current point 
+p - print
+c - continue
+s - step
+where - see stack list
+up - go to upper stack level
+down - go(back) to lower stack level
+print <varname> - get variable value
 ENTER: pressing enter key would execute the previously executed command again.
 
 ```
@@ -92,7 +96,35 @@ Enter factorial number: 5
 
 Breakpoint 2, factorial (fact=5) at factorial.c:8
 8               return fact*factorial(fact-1);
+(gdb) where
+#0  factorial (fact=5) at factorial.c:8
+#1  0x00000000004005ff in main () at factorial.c:15
+(gdb) list
+3
+4       int32_t factorial(int32_t fact){
+5               if(fact == 0){
+6                       return 1;
+7               }
+8               return fact*factorial(fact-1);
+9       }
+10
+11      int main()
+12      {       int32_t fact;
+(gdb) up
+#1  0x00000000004005ff in main () at factorial.c:15
+15              printf("factorial(%d) is %d\n", fact, factorial(fact));
 (gdb) l
+10
+11      int main()
+12      {       int32_t fact;
+13              printf ("Enter factorial number: ");
+14              scanf ("%d", &fact );
+15              printf("factorial(%d) is %d\n", fact, factorial(fact));
+16      }
+(gdb) down
+#0  factorial (fact=5) at factorial.c:8
+8               return fact*factorial(fact-1);
+(gdb) list
 3
 4       int32_t factorial(int32_t fact){
 5               if(fact == 0){
